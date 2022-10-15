@@ -1,0 +1,65 @@
+specVersion: 0.0.1
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: Contract
+    network: arbitrum-one
+    source:
+      address: "0x97a7af2A0323e2a40B866Df3A5F1F389427C9b68"
+      abi: Contract
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - Paused
+        - RoleAdminChanged
+        - RoleGranted
+        - RoleRevoked
+        - TokenDeposit
+        - TokenDepositAndSwap
+        - TokenMint
+        - TokenMintAndSwap
+        - TokenRedeem
+        - TokenRedeemAndRemove
+        - TokenRedeemAndSwap
+        - TokenRedeemV2
+        - TokenWithdraw
+        - TokenWithdrawAndRemove
+        - Unpaused
+      abis:
+        - name: Contract
+          file: ./abis/Contract.json
+      eventHandlers:
+        - event: Paused(address)
+          handler: handlePaused
+        - event: RoleAdminChanged(indexed bytes32,indexed bytes32,indexed bytes32)
+          handler: handleRoleAdminChanged
+        - event: RoleGranted(indexed bytes32,indexed address,indexed address)
+          handler: handleRoleGranted
+        - event: RoleRevoked(indexed bytes32,indexed address,indexed address)
+          handler: handleRoleRevoked
+        - event: TokenDeposit(indexed address,uint256,address,uint256)
+          handler: handleTokenDeposit
+        - event: TokenDepositAndSwap(indexed address,uint256,address,uint256,uint8,uint8,uint256,uint256)
+          handler: handleTokenDepositAndSwap
+        - event: TokenMint(indexed address,address,uint256,uint256,indexed bytes32)
+          handler: handleTokenMint
+        - event: TokenMintAndSwap(indexed address,address,uint256,uint256,uint8,uint8,uint256,uint256,bool,indexed bytes32)
+          handler: handleTokenMintAndSwap
+        - event: TokenRedeem(indexed address,uint256,address,uint256)
+          handler: handleTokenRedeem
+        - event: TokenRedeemAndRemove(indexed address,uint256,address,uint256,uint8,uint256,uint256)
+          handler: handleTokenRedeemAndRemove
+        - event: TokenRedeemAndSwap(indexed address,uint256,address,uint256,uint8,uint8,uint256,uint256)
+          handler: handleTokenRedeemAndSwap
+        - event: TokenRedeemV2(indexed bytes32,uint256,address,uint256)
+          handler: handleTokenRedeemV2
+        - event: TokenWithdraw(indexed address,address,uint256,uint256,indexed bytes32)
+          handler: handleTokenWithdraw
+        - event: TokenWithdrawAndRemove(indexed address,address,uint256,uint256,uint8,uint256,uint256,bool,indexed bytes32)
+          handler: handleTokenWithdrawAndRemove
+        - event: Unpaused(address)
+          handler: handleUnpaused
+      file: ./src/contract.ts
