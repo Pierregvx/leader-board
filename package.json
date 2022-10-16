@@ -1,16 +1,18 @@
 {
-  "name": "tailor",
+  "name": "arbithack",
   "license": "UNLICENSED",
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ pierregvx/tailor",
-    "create-local": "graph create --node http://localhost:8020/ pierregvx/tailor",
-    "remove-local": "graph remove --node http://localhost:8020/ pierregvx/tailor",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 pierregvx/tailor"
+    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ pierregvx/arbithack",
+    "create-local": "graph create --node http://localhost:8020/ pierregvx/arbithack",
+    "remove-local": "graph remove --node http://localhost:8020/ pierregvx/arbithack",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 pierregvx/arbithack"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.32.0",
-    "@graphprotocol/graph-ts": "0.27.0"
-  }
+    "@graphprotocol/graph-ts": "0.27.0",
+    "apollo-server-express": "^3.10.3"
+  },
+  "type": "module"
 }

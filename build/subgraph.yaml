@@ -1,6 +1,6 @@
 specVersion: 0.0.4
 schema:
-  file: ./schema.graphql
+  file: schema.graphql
 dataSources:
   - kind: ethereum
     name: Contract
@@ -30,26 +30,31 @@ dataSources:
         - TokenWithdrawAndRemove
       abis:
         - name: Contract
-          file: ./abis/Contract.json
+          file: Contract/abis/Contract.json
       eventHandlers:
         - event: TokenDeposit(indexed address,uint256,address,uint256)
           handler: handleTokenDeposit
-        - event: TokenDepositAndSwap(indexed address,uint256,address,uint256,uint8,uint8,uint256,uint256)
+        - event: TokenDepositAndSwap(indexed
+            address,uint256,address,uint256,uint8,uint8,uint256,uint256)
           handler: handleTokenDepositAndSwap
         - event: TokenMint(indexed address,address,uint256,uint256,indexed bytes32)
           handler: handleTokenMint
-        - event: TokenMintAndSwap(indexed address,address,uint256,uint256,uint8,uint8,uint256,uint256,bool,indexed bytes32)
+        - event: TokenMintAndSwap(indexed
+            address,address,uint256,uint256,uint8,uint8,uint256,uint256,bool,indexed
+            bytes32)
           handler: handleTokenMintAndSwap
         - event: TokenRedeem(indexed address,uint256,address,uint256)
           handler: handleTokenRedeem
         - event: TokenRedeemAndRemove(indexed address,uint256,address,uint256,uint8,uint256,uint256)
           handler: handleTokenRedeemAndRemove
-        - event: TokenRedeemAndSwap(indexed address,uint256,address,uint256,uint8,uint8,uint256,uint256)
+        - event: TokenRedeemAndSwap(indexed
+            address,uint256,address,uint256,uint8,uint8,uint256,uint256)
           handler: handleTokenRedeemAndSwap
         - event: TokenRedeemV2(indexed bytes32,uint256,address,uint256)
           handler: handleTokenRedeemV2
         - event: TokenWithdraw(indexed address,address,uint256,uint256,indexed bytes32)
           handler: handleTokenWithdraw
-        - event: TokenWithdrawAndRemove(indexed address,address,uint256,uint256,uint8,uint256,uint256,bool,indexed bytes32)
+        - event: TokenWithdrawAndRemove(indexed
+            address,address,uint256,uint256,uint8,uint256,uint256,bool,indexed bytes32)
           handler: handleTokenWithdrawAndRemove
-      file: ./src/contract.ts
+      file: Contract/Contract.wasm

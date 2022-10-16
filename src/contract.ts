@@ -1,4 +1,4 @@
-import { BigInt } from "@graphprotocol/graph-ts"
+import { Address, BigInt, log } from "@graphprotocol/graph-ts";
 import {
   Contract,
   Paused,
@@ -15,90 +15,161 @@ import {
   TokenRedeemV2,
   TokenWithdraw,
   TokenWithdrawAndRemove,
-  Unpaused
-} from "../generated/Contract/Contract"
-import { ExampleEntity } from "../generated/schema"
+  Unpaused,
+} from "../generated/Contract/Contract";
 
-export function handlePaused(event: Paused): void {
-  // Entities can be loaded from the store using a string ID; this ID
-  // needs to be unique across all entities of the same type
-  let entity = ExampleEntity.load(event.transaction.from.toHex())
+let ZERO = BigInt.fromI32(0);
+import { User } from "../generated/schema";
+function loadOrCreateUser(address: Address, fees: BigInt): User {
+  let newUser = User.load(address.toHexString());
+  if (!newUser) {
+    newUser = new User(address.toHexString());
+    newUser.deposit = ZERO;
+    newUser.swap = ZERO;
+    newUser.redeem = ZERO;
+    newUser.withdraw = ZERO;
+    newUser.removed = ZERO;
 
-  // Entities only exist after they have been saved to the store;
-  // `null` checks allow to create entities on demand
-  if (!entity) {
-    entity = new ExampleEntity(event.transaction.from.toHex())
-
-    // Entity fields can be set using simple assignments
-    entity.count = BigInt.fromI32(0)
+    newUser.minted = ZERO;
+newUser.volume=ZERO
+    newUser.xp=0
   }
 
-  // BigInt and BigDecimal math are supported
-  entity.count = entity.count + BigInt.fromI32(1)
-
-  // Entity fields can be set based on event parameters
-  entity.account = event.params.account
-
-  // Entities can be written to the store with `.save()`
-  entity.save()
-
-  // Note: If a handler doesn't require existing field values, it is faster
-  // _not_ to load the entity from the store. Instead, create it fresh with
-  // `new Entity(...)`, set the fields that should be updated and save the
-  // entity back to the store. Fields that were not set or unset remain
-  // unchanged, allowing for partial updates to be applied.
-
-  // It is also possible to access smart contracts from mappings. For
-  // example, the contract that has emitted the event can be connected to
-  // with:
-  //
-  // let contract = Contract.bind(event.address)
-  //
-  // The following functions can then be called on this contract to access
-  // state variables and other data:
-  //
-  // - contract.DEFAULT_ADMIN_ROLE(...)
-  // - contract.GOVERNANCE_ROLE(...)
-  // - contract.NODEGROUP_ROLE(...)
-  // - contract.WETH_ADDRESS(...)
-  // - contract.bridgeVersion(...)
-  // - contract.chainGasAmount(...)
-  // - contract.getFeeBalance(...)
-  // - contract.getRoleAdmin(...)
-  // - contract.getRoleMember(...)
-  // - contract.getRoleMemberCount(...)
-  // - contract.hasRole(...)
-  // - contract.kappaExists(...)
-  // - contract.paused(...)
-  // - contract.startBlockNumber(...)
+  log.info(newUser.deposit.toString(), []);
+  return newUser;
 }
 
-export function handleRoleAdminChanged(event: RoleAdminChanged): void {}
+export function handleTokenDeposit(event: TokenDeposit): void {
+  const feesunit = event.receipt ? event.receipt!.gasUsed : ZERO;
+  let user = loadOrCreateUser(
+    event.transaction.from,
+    event.transaction.gasPrice
+  );
+  user.volume += event.params.amount;
 
-export function handleRoleGranted(event: RoleGranted): void {}
+  user.deposit += event.params.amount;
+    user.xp+=30
+  user.save();
+}
 
-export function handleRoleRevoked(event: RoleRevoked): void {}
+export function handleTokenDepositAndSwap(event: TokenDepositAndSwap): void {
+  const feesunit = event.receipt ? event.receipt!.gasUsed : ZERO;
+  let user = loadOrCreateUser(
+    event.transaction.from,
+    event.transaction.gasPrice
+  );
+  user.xp+=50
+  user.volume += event.params.amount;
 
-export function handleTokenDeposit(event: TokenDeposit): void {}
+  user.deposit += event.params.amount;
+  user.swap += event.params.amount;
+  user.save();
+}
 
-export function handleTokenDepositAndSwap(event: TokenDepositAndSwap): void {}
+export function handleTokenMint(event: TokenMint): void {
+  const feesunit = event.receipt ? event.receipt!.gasUsed : ZERO;
+  let user = loadOrCreateUser(
+    event.transaction.from,
+    event.transaction.gasPrice
+  );
+  user.xp+=40
+  user.volume += event.params.amount;
 
-export function handleTokenMint(event: TokenMint): void {}
+  user.minted += event.params.amount;
+  user.save();
+}
 
-export function handleTokenMintAndSwap(event: TokenMintAndSwap): void {}
+export function handleTokenMintAndSwap(event: TokenMintAndSwap): void {
+  const feesunit = event.receipt ? event.receipt!.gasUsed : ZERO;
+  let user = loadOrCreateUser(
+    event.transaction.from,
+    event.transaction.gasPrice
+  );
+  user.xp+=70;
+  user.volume += event.params.amount;
 
-export function handleTokenRedeem(event: TokenRedeem): void {}
+  user.minted += event.params.amount;
+  user.swap += event.params.amount;
+  user.save();
+}
 
-export function handleTokenRedeemAndRemove(event: TokenRedeemAndRemove): void {}
+export function handleTokenRedeem(event: TokenRedeem): void {
+  const feesunit = event.receipt ? event.receipt!.gasUsed : ZERO;
+  let user = loadOrCreateUser(
+    event.transaction.from,
+    event.transaction.gasPrice
+  );
+  user.xp+=20
+  user.volume += event.params.amount;
+  user.redeem += event.params.amount;
+  user.save();
+}
 
-export function handleTokenRedeemAndSwap(event: TokenRedeemAndSwap): void {}
+export function handleTokenRedeemAndRemove(event: TokenRedeemAndRemove): void {
+  const feesunit = event.receipt ? event.receipt!.gasUsed : ZERO;
+  let user = loadOrCreateUser(
+    event.transaction.from,
+    event.transaction.gasPrice
+  );
+  user.xp+=35
+  user.volume += event.params.amount;
 
-export function handleTokenRedeemV2(event: TokenRedeemV2): void {}
+  user.redeem += event.params.amount;
+  user.removed += event.params.amount;
+  user.save();
+}
 
-export function handleTokenWithdraw(event: TokenWithdraw): void {}
+export function handleTokenRedeemAndSwap(event: TokenRedeemAndSwap): void {
+  const feesunit = event.receipt ? event.receipt!.gasUsed : ZERO;
+  let user = loadOrCreateUser(
+    event.transaction.from,
+    event.transaction.gasPrice
+  );
+  user.xp+=40
+  user.volume += event.params.amount;
+
+  user.redeem += event.params.amount;
+  user.swap += event.params.amount;
+  user.save();
+}
+
+export function handleTokenRedeemV2(event: TokenRedeemV2): void {
+  const feesunit = event.receipt ? event.receipt!.gasUsed : ZERO;
+  let user = loadOrCreateUser(
+    event.transaction.from,
+    event.transaction.gasPrice
+  );
+  user.xp+=35
+  user.volume += event.params.amount;
+
+  user.redeem += event.params.amount;
+  user.save();
+}
+
+export function handleTokenWithdraw(event: TokenWithdraw): void {
+  const feesunit = event.receipt ? event.receipt!.gasUsed : ZERO;
+  let user = loadOrCreateUser(
+    event.transaction.from,
+    event.transaction.gasPrice
+  );
+  user.xp+=20
+  user.volume += event.params.amount;
+
+  user.withdraw += event.params.amount;
+  user.save();
+}
 
 export function handleTokenWithdrawAndRemove(
   event: TokenWithdrawAndRemove
-): void {}
-
-export function handleUnpaused(event: Unpaused): void {}
+): void {
+  const feesunit = event.receipt ? event.receipt!.gasUsed : ZERO;
+  let user = loadOrCreateUser(
+    event.transaction.from,
+    event.transaction.gasPrice
+  );
+  user.volume += event.params.amount;
+user.xp+=35
+  user.withdraw += event.params.amount;
+  user.removed += event.params.amount;
+  user.save();
+}
