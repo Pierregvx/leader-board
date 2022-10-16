@@ -8,7 +8,7 @@ export async function getStaticProps() {
   const { data } = await client.query({
     query: gql`
       query Countries {
-        users(orderBy:xp,orderDirection:desc) {
+        users(orderBy: xp, orderDirection: desc) {
           id
           deposit
           swap
@@ -18,9 +18,8 @@ export async function getStaticProps() {
       }
     `,
   });
-console.log("===============",data)
+  console.log("===============", data);
   return {
-
     props: {
       countries: data.users.slice(0, 20),
     },
@@ -28,7 +27,7 @@ console.log("===============",data)
 }
 
 export default function Home({ countries }) {
-  console.log(countries)
+  console.log(countries);
   return (
     <div className={styles.container}>
       <Head>
@@ -38,20 +37,17 @@ export default function Home({ countries }) {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
-         Leaderboard
-        </h1>
-
-       
-
+        <h1 className={styles.title}>Leaderboard</h1>
+        <Image
+          src="/bridgoooor.jpg"
+          alt="#"
+          height="400%"
+          width="400%"
+        ></Image>
         <div className={styles.grid}>
-          {
-          
-          countries.map((user) => (
-            
+          {countries.map((user) => (
             <div key={user.id} className={styles.card}>
-             
-              <h3 href= 'https://arbiscan.io/address/${}'>
+              <h3>
                 <a
                   href="#country-name"
                   aria-hidden="true"
@@ -72,29 +68,15 @@ export default function Home({ countries }) {
                     ></path>
                   </svg>
                 </a>
-                {user.id.slice(0,20)}...
+                <a href={`https://arbiscan.io/address/${user.id}`}>
+                  {user.id.slice(0, 20)}...
+                </a>
               </h3>
-              <p>
-              xp :{user.xp}
-              </p>
-              
-              <p>
-                deposit volume:{user.deposit}
-              </p>
-              <p>
-                swap volume :{user.swap}
-              </p>
-              <p>
-                redeem volume :{user.redeem}
-              </p>
-             
+              <p>xp :{user.xp}</p>
 
-
-
-
-
-
-
+              <p>deposit volume:{user.deposit}</p>
+              <p>swap volume :{user.swap}</p>
+              <p>redeem volume :{user.redeem}</p>
             </div>
           ))}
         </div>
