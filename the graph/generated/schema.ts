@@ -114,20 +114,12 @@ export class User extends Entity {
     this.set("xp", Value.fromI32(value));
   }
 
-  get chains(): Array<BigInt> | null {
+  get chains(): Array<BigInt> {
     let value = this.get("chains");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toBigIntArray();
-    }
+    return value!.toBigIntArray();
   }
 
-  set chains(value: Array<BigInt> | null) {
-    if (!value) {
-      this.unset("chains");
-    } else {
-      this.set("chains", Value.fromBigIntArray(<Array<BigInt>>value));
-    }
+  set chains(value: Array<BigInt>) {
+    this.set("chains", Value.fromBigIntArray(value));
   }
 }

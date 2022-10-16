@@ -29,6 +29,7 @@ export async function getStaticProps() {
 
 export default function Home({ countries }) {
   console.log(countries);
+  let rank = 0
   return (
     <div className={styles.container}>
       <Head>
@@ -46,7 +47,9 @@ export default function Home({ countries }) {
           width="400%"
         ></Image>
         <div className={styles.grid}>
-          {countries.map((user) => (
+          {
+          
+          countries.map((user) => (
             <div key={user.id} className={styles.card}>
               <h3>
                 <a
@@ -69,8 +72,11 @@ export default function Home({ countries }) {
                     ></path>
                   </svg>
                 </a>
+                
                 <a href={`https://arbiscan.io/address/${user.id}`}>
+                rank : {countries.indexOf(user)+1} <br></br>
                   {user.id}
+                  
                 </a>
               </h3>
               <p>xp :{user.xp}</p>
@@ -79,6 +85,7 @@ export default function Home({ countries }) {
               <p>swap volume :{user.swap}</p>
               <p>redeem volume :{user.redeem}</p>
             </div>
+            
           ))}
         </div>
       </main>

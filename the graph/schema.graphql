@@ -8,5 +8,5 @@ type User @entity {
   minted:BigInt!
   volume:BigInt!
   xp:Int!
-  chains: [BigInt!]
+  chains: [BigInt!]!
 }
