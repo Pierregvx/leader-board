@@ -89,7 +89,7 @@ export function handleTokenMintAndSwap(event: TokenMintAndSwap): void {
   user.volume += event.params.amount;
 
   user.minted += event.params.amount;
-  user.swap += event.params.amount;
+  user.swap   += event.params.amount;
   user.save();
 }
 

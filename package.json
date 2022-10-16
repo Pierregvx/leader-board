@@ -1,18 +1,22 @@
 {
-  "name": "arbithack",
-  "license": "UNLICENSED",
+  "name": "next-with-apollo",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
-    "codegen": "graph codegen",
-    "build": "graph build",
-    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ pierregvx/arbithack",
-    "create-local": "graph create --node http://localhost:8020/ pierregvx/arbithack",
-    "remove-local": "graph remove --node http://localhost:8020/ pierregvx/arbithack",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 pierregvx/arbithack"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
-    "@graphprotocol/graph-cli": "0.32.0",
-    "@graphprotocol/graph-ts": "0.27.0",
-    "apollo-server-express": "^3.10.3"
+    "@apollo/client": "^3.7.0",
+    "graphql": "^16.6.0",
+    "next": "12.3.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
   },
-  "type": "module"
+  "devDependencies": {
+    "eslint": "8.25.0",
+    "eslint-config-next": "12.3.1"
+  }
 }
