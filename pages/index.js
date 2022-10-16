@@ -15,11 +15,11 @@ export async function getStaticProps() {
           redeem
           volume
           xp
+          chains
         }
       }
     `,
   });
-  console.log("===============", data);
   return {
     props: {
       countries: data.users.slice(0, 20),
@@ -28,8 +28,6 @@ export async function getStaticProps() {
 }
 
 export default function Home({ countries }) {
-  console.log(countries);
-  let rank = 0
   return (
     <div className={styles.container}>
       <Head>
@@ -40,6 +38,7 @@ export default function Home({ countries }) {
 
       <main className={styles.main}>
         <h1 className={styles.title}>Leaderboard</h1>
+        <a href="https://dune.com/pierrevx/synapsedashboard"> Dashboard</a>
         <Image
           src="/bridgoooor.jpg"
           alt="#"
@@ -74,16 +73,17 @@ export default function Home({ countries }) {
                 </a>
                 
                 <a href={`https://arbiscan.io/address/${user.id}`}>
-                rank : {countries.indexOf(user)+1} <br></br>
+                Rank : {countries.indexOf(user)+1} <br></br>
                   {user.id}
                   
                 </a>
               </h3>
-              <p>xp :{user.xp}</p>
-              <p>volume exchanged in the platform: {user.volume}</p>
-              <p>deposit volume:{user.deposit}</p>
-              <p>swap volume :{user.swap}</p>
-              <p>redeem volume :{user.redeem}</p>
+              <p>Xp :{user.xp}</p>
+              <p>Volume exchanged in the platform: {user.volume}</p>
+              <p>Deposit volume:{user.deposit}</p>
+              <p>Swap volume :{user.swap}</p>
+              <p>Redeem volume :{user.redeem}</p>
+              <p>Chains called from Arbitrum: {user.chains}</p>
             </div>
             
           ))}

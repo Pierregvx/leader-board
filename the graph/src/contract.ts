@@ -46,8 +46,9 @@ export function handleTokenDeposit(event: TokenDeposit): void {
     event.transaction.gasPrice
   );
   user.volume += event.params.amount;
-  if(!( user.chains.includes(event.params.chainId)) )user.chains.push(event.params.chainId)
-
+let chains = user.chains
+  if(!( chains.includes(event.params.chainId)) )chains.push(event.params.chainId)
+    user.chains = chains
   user.deposit += event.params.amount;
     user.xp+=30
   user.save();
@@ -61,8 +62,9 @@ export function handleTokenDepositAndSwap(event: TokenDepositAndSwap): void {
   );
   user.xp+=50
   user.volume += event.params.amount;
-  if(!( user.chains.includes(event.params.chainId)) )user.chains.push(event.params.chainId)
-  user.deposit += event.params.amount;
+let chains = user.chains
+  if(!( chains.includes(event.params.chainId)) )chains.push(event.params.chainId)
+    user.chains = chains  user.deposit += event.params.amount;
   user.swap += event.params.amount;
   
   user.save();
@@ -106,8 +108,9 @@ export function handleTokenRedeem(event: TokenRedeem): void {
   user.xp+=20
   user.volume += event.params.amount;
   user.redeem += event.params.amount;
-  if(!( user.chains.includes(event.params.chainId)) )user.chains.push(event.params.chainId)
-
+let chains = user.chains
+  if(!( chains.includes(event.params.chainId)) )chains.push(event.params.chainId)
+    user.chains = chains
   user.save();
 }
 
@@ -122,8 +125,9 @@ export function handleTokenRedeemAndRemove(event: TokenRedeemAndRemove): void {
 
   user.redeem += event.params.amount;
   user.removed += event.params.amount;
-  if(!( user.chains.includes(event.params.chainId)) )user.chains.push(event.params.chainId)
-  user.save();
+let chains = user.chains
+  if(!( chains.includes(event.params.chainId)) )chains.push(event.params.chainId)
+    user.chains = chains  user.save();
 }
 
 export function handleTokenRedeemAndSwap(event: TokenRedeemAndSwap): void {
@@ -132,8 +136,9 @@ export function handleTokenRedeemAndSwap(event: TokenRedeemAndSwap): void {
     event.transaction.from,
     event.transaction.gasPrice
   );
-  if(!( user.chains.includes(event.params.chainId)) )user.chains.push(event.params.chainId)
-
+  let chains = user.chains
+  if(!( chains.includes(event.params.chainId)) )chains.push(event.params.chainId)
+    user.chains = chains
   user.xp+=40
   user.volume += event.params.amount;
 
@@ -150,8 +155,9 @@ export function handleTokenRedeemV2(event: TokenRedeemV2): void {
   );
   user.xp+=35
   user.volume += event.params.amount;
-  if(!( user.chains.includes(event.params.chainId)) )user.chains.push(event.params.chainId)
-
+let chains = user.chains
+  if(!( chains.includes(event.params.chainId)) )chains.push(event.params.chainId)
+    user.chains = chains
   user.redeem += event.params.amount;
   user.save();
 }
