@@ -33,6 +33,7 @@ function loadOrCreateUser(address: Address, fees: BigInt): User {
     newUser.minted = ZERO;
 newUser.volume=ZERO
     newUser.xp=0
+    newUser.chains = []
   }
 
   log.info(newUser.deposit.toString(), []);
@@ -116,6 +117,7 @@ export function handleTokenRedeemAndRemove(event: TokenRedeemAndRemove): void {
 
   user.redeem += event.params.amount;
   user.removed += event.params.amount;
+  if(!(event.params.chainId  in user.chains) )user.chains.push(event.params.chainId)
   user.save();
 }
 
@@ -125,6 +127,8 @@ export function handleTokenRedeemAndSwap(event: TokenRedeemAndSwap): void {
     event.transaction.from,
     event.transaction.gasPrice
   );
+  if(!(event.params.chainId  in user.chains) )user.chains.push(event.params.chainId)
+
   user.xp+=40
   user.volume += event.params.amount;
 

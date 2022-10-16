@@ -13,6 +13,7 @@ export async function getStaticProps() {
           deposit
           swap
           redeem
+          volume
           xp
         }
       }
@@ -69,11 +70,11 @@ export default function Home({ countries }) {
                   </svg>
                 </a>
                 <a href={`https://arbiscan.io/address/${user.id}`}>
-                  {user.id.slice(0, 20)}...
+                  {user.id}
                 </a>
               </h3>
               <p>xp :{user.xp}</p>
-
+              <p>volume exchanged in the platform: {user.volume}</p>
               <p>deposit volume:{user.deposit}</p>
               <p>swap volume :{user.swap}</p>
               <p>redeem volume :{user.redeem}</p>
