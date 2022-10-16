@@ -83,7 +83,7 @@ export default function Home({ countries }) {
               <p>Deposit volume:{user.deposit}</p>
               <p>Swap volume :{user.swap}</p>
               <p>Redeem volume :{user.redeem}</p>
-              <p>Chains called from Arbitrum: {user.chains}</p>
+              <p>Chains called from Arbitrum: {user.chains.join( " - ")}</p>
             </div>
             
           ))}
